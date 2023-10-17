@@ -30,12 +30,13 @@ def generate_sitemap(app):
             if "/admin/" not in url:
                 links.append(url)
 
-    links_html = "".join(["<li><a href='" + y + "'>" + y + "</a></li>" for y in links])
+    links_html = "".join(["<li><a href='" + y + "' style='color: white'>" + y + "</a></li>" for y in links])
     return """
+        <body style="background: black">
         <div style="text-align: center;">
-        <img style="max-height: 80px" src='https://storage.googleapis.com/breathecode/boilerplates/rigo-baby.jpeg' />
-        <h1>Rigo welcomes you to your API!!</h1>
-        <p>API HOST: <script>document.write('<input style="padding: 5px; width: 300px" type="text" value="'+window.location.href+'" />');</script></p>
-        <p>Start working on your project by following the <a href="https://start.4geeksacademy.com/starters/full-stack" target="_blank">Quick Start</a></p>
-        <p>Remember to specify a real endpoint path like: </p>
-        <ul style="text-align: left;">"""+links_html+"</ul></div>"
+        <img src="https://www.danielleskosky.com/wp-content/uploads/media-uploads/what-is-an-api/api-with-outlets.jpg" style="height:150px; width: 300px">
+        <h1 style="color: white">MY API</h1>
+        <p style="color: white">API HOST: <script>document.write('<input style="padding: 5px; width: 300px" type="text" value="'+window.location.href+'" />');</script></p>
+        <p style="color: white">Start working on your project by following the <a href="https://start.4geeksacademy.com/starters/full-stack" target="_blank" style="color: white">Quick Start</a></p>
+        <p style="color: white">Remember to specify a real endpoint path like: </p>
+        <ul style="text-align: center; list-style-type: none; color: white; padding: 0">"""+links_html+"</ul></div>"

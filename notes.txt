@@ -1,0 +1,24 @@
+- $ flask insert-test-users 5
+    * Allows us to quickly and automatically populate our user table in order to test it 
+
+- Do 'git add <file>' then git 
+
+        * use '.gitignore' file to ignore migrations from git commits/pushes
+            --> 'backend stuff' --> 'migrations/'
+
+- https://flask-jwt-extended.readthedocs.io/en/stable/ 
+
+- How to encrypt passwords: https://flask-bcrypt.readthedocs.io/en/latest/
+
+- Una API solo debe tener una forma de autorización 
+
+
+---------------------
+4GEEKS VIDEO NOTES
+
+- There are 3 challenges for creating authentification :
+
+    * 1. Creating a token
+    * 2. Storing that token 
+    * 3. Making sure that token is used from then on 
+
