@@ -1,3 +1,13 @@
+- Starting commands:
+
+    * (pipenv install)
+    * pipenv run start 
+     
+    - In Separate Terminal - 
+
+    * (npm install)
+    * npm start 
+
 - $ flask insert-test-users 5
     * Allows us to quickly and automatically populate our user table in order to test it 
 
@@ -16,9 +26,9 @@
 ---------------------
 4GEEKS VIDEO NOTES
 
-- There are 3 challenges for creating authentification :
+- There are 3 challenges for creating authentification:
 
-    * 1. Creating a token
-    * 2. Storing that token 
-    * 3. Making sure that token is used from then on 
+    1. Creating a token
+    2. Storing that token 
+    3. Making sure that token is used from then on 
 

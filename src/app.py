@@ -2,17 +2,17 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
-from flask import Flask, request, jsonify, url_for, send_from_directory, Blueprint
+from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
 from api.models import db, User
-from api.routes import app
+from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
 # JWT Extended Imports 
-from flask_jwt_extended import JWTManager
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, JWTManager
 
 # Environment?
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
@@ -21,7 +21,7 @@ app = Flask(__name__) # Creating of app
 app.url_map.strict_slashes = False
 
 # Setup the Flask-JWT-Extended extension
-app.config["JWT_SECRET_KEY"] = os.getenv('JWT_SECRET')  # or os.environ.get?
+api.config["JWT_SECRET_KEY"] = os.getenv('JWT_SECRET')  # or os.environ.get?
 jwt = JWTManager(api)
 
 # database configuration
@@ -67,6 +67,51 @@ def serve_any_other_file(path):
     response = send_from_directory(static_file_dir, path)
     response.cache_control.max_age = 0 # avoid cache memory
     return response
+
+# /// JWT EXTENDED - MY ENDPOINTS
+
+# Create a route to authenticate your users and return JSON Web Tokens (JWTs) to them.
+# The 'create_access_token()' func generates the JWT.
+@api.route("/login", methods=["POST"])
+def login():
+    body = request.get_json(silent=True)
+    # Handle Errors
+    if body is None: 
+        return jsonify({'msg': 'You must include a body in the request'}), 400
+    if 'email' not in body: 
+        return jsonify({'msg': 'You need to add an email'})
+    if 'password' not in body: 
+        return jsonify({'msg': 'You need to add an password'})
+    
+    # Otherwise, get the first user with this email and check if the password given is the same as the password stored 
+    user = User.query.filter_by(email=body['email'].first()) # .first() = not to produce a list, only first item 
+    # if user with this email doesn't exist
+    if user is None:
+         return jsonify({'error': 'Incorrect user email'})
+    # if password is not the same
+    if user.password != body['password']:
+        return jsonify({'error': 'Incorrect password'})
+
+    # if all good  
+    access_token = create_access_token(identity=user.email)
+    return jsonify(access_token=access_token) # the same as ({'access_token': access_token})
+
+    # TEST CODE
+    # username = request.json.get("username", None)
+    # password = request.json.get("password", None)
+    # if username != "test" or password != "test":
+    #     return jsonify({"msg": "Bad username or password"}), 401
+
+    
+
+# ENDPOINT '/private' 
+@api.route("/private", methods=['GET']) 
+@jwt_required() # requires a JWT to get to this endpoint, protecting the route and ignoring unauthorised requests 
+def private():
+    # return jsonify({'msg': 'Private Method'}) TEST LINE 
+    email = get_jwt_identity() # connects user with created JWT
+    return jsonify({'msg': 'Private route', 'user': email}), 200
+
 
 
 # /// END OF FILE ///
