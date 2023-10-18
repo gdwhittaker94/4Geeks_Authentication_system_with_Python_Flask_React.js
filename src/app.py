@@ -2,23 +2,27 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
-from flask import Flask, request, jsonify, url_for, send_from_directory
+from flask import Flask, request, jsonify, url_for, send_from_directory, Blueprint
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
-from api.models import db
-from api.routes import api
+from api.models import db, User
+from api.routes import app
 from api.admin import setup_admin
 from api.commands import setup_commands
+# JWT Extended Imports 
+from flask_jwt_extended import JWTManager
 
-#from models import Person
-
+# Environment?
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')
-app = Flask(__name__)
+app = Flask(__name__) # Creating of app
 app.url_map.strict_slashes = False
 
+# Setup the Flask-JWT-Extended extension
+app.config["JWT_SECRET_KEY"] = os.getenv('JWT_SECRET')  # or os.environ.get?
+jwt = JWTManager(api)
 
 # database configuration
 db_url = os.getenv("DATABASE_URL")
