@@ -21,8 +21,8 @@ app = Flask(__name__) # Creating of app
 app.url_map.strict_slashes = False
 
 # Setup the Flask-JWT-Extended extension
-api.config["JWT_SECRET_KEY"] = os.getenv('JWT_SECRET')  # or os.environ.get?
-jwt = JWTManager(api)
+app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET") 
+jwt = JWTManager(app)
 
 # database configuration
 db_url = os.getenv("DATABASE_URL")
@@ -68,22 +68,59 @@ def serve_any_other_file(path):
     response.cache_control.max_age = 0 # avoid cache memory
     return response
 
-# /// JWT EXTENDED - MY ENDPOINTS
+# ///////////////////////////////////
+# /// MY ENDPOINTS + JWT EXTENDED ///
+# ///////////////////////////////////
 
-# Create a route to authenticate your users and return JSON Web Tokens (JWTs) to them.
-# The 'create_access_token()' func generates the JWT.
-@api.route("/login", methods=["POST"])
-def login():
+# *** ENDPOINT '/signup' ***
+@app.route('/signup', methods=['POST'])
+def signup():
     body = request.get_json(silent=True)
     # Handle Errors
     if body is None: 
         return jsonify({'msg': 'You must include a body in the request'}), 400
     if 'email' not in body: 
-        return jsonify({'msg': 'You need to add an email'})
+        return jsonify({'msg': 'You need to add an email address'})
+    if 'password' not in body: 
+        return jsonify({'msg': 'You need to add an password'})
+
+     # Check: email must be unique 
+    if User.query.filter_by(email=body['email']).first() is not None:
+        return jsonify({'error': 'This email address already exists'}), 400
+
+    new_user = User()
+    new_user.email = body['email']
+    new_user.password = body['password']
+    
+    db.session.add(new_user) # adds new user to db
+    db.session.commit() # like git commit, saves changes
+
+    # Frontend Response 
+    return jsonify ({'msg': 'User successfully created'}), 200
+
+# *** ENDPOINT '/login' ***
+# Authenticating that user already exists and returning JSON Web Tokens (JWTs) to them.
+@app.route("/login", methods=['POST'])
+def login():
+    # TEST CODE
+    username = request.json.get("username", None)
+    password = request.json.get("password", None)
+    if username != "test" or password != "test":
+        return jsonify({"msg": "Bad username or password"}), 401
+
+    access_token = create_access_token(identity=username)
+    return jsonify(access_token=access_token)
+   
+    body = request.get_json(silent=True)
+    # Handle Errors
+    if body is None: 
+        return jsonify({'msg': 'You must include a body in the request'}), 400
+    if 'email' not in body: 
+        return jsonify({'msg': 'You need to add an email address'})
     if 'password' not in body: 
         return jsonify({'msg': 'You need to add an password'})
     
-    # Otherwise, get the first user with this email and check if the password given is the same as the password stored 
+    # Otherwise, check provide credentials against data in db (i.e. does user already exist or not?) 
     user = User.query.filter_by(email=body['email'].first()) # .first() = not to produce a list, only first item 
     # if user with this email doesn't exist
     if user is None:
@@ -93,19 +130,14 @@ def login():
         return jsonify({'error': 'Incorrect password'})
 
     # if all good  
-    access_token = create_access_token(identity=user.email)
-    return jsonify(access_token=access_token) # the same as ({'access_token': access_token})
+    access_token = create_access_token(identity=user.email) # this func generates the JWT.
 
-    # TEST CODE
-    # username = request.json.get("username", None)
-    # password = request.json.get("password", None)
-    # if username != "test" or password != "test":
-    #     return jsonify({"msg": "Bad username or password"}), 401
+    # response to frontend -> user receives JWT
+    return jsonify({'access_token': access_token}) 
 
-    
 
 # ENDPOINT '/private' 
-@api.route("/private", methods=['GET']) 
+@app.route("/private", methods=['GET']) 
 @jwt_required() # requires a JWT to get to this endpoint, protecting the route and ignoring unauthorised requests 
 def private():
     # return jsonify({'msg': 'Private Method'}) TEST LINE 
