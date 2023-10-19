@@ -15,12 +15,14 @@
 
         * use '.gitignore' file to ignore migrations from git commits/pushes
             --> 'backend stuff' --> 'migrations/'
-
-- https://flask-jwt-extended.readthedocs.io/en/stable/ 
-
-- How to encrypt passwords: https://flask-bcrypt.readthedocs.io/en/latest/
-
+            
 - Una API solo debe tener una forma de autorización 
+
+- JWT EXTENDED LINK: https://flask-jwt-extended.readthedocs.io/en/stable/ 
+
+- Flask-Bcrypt LINK: https://flask-bcrypt.readthedocs.io/en/latest/
+    +  How-to from class: t.ly/rLPt7 
+
 
 
 ---------------------

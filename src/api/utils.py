@@ -34,7 +34,7 @@ def generate_sitemap(app):
     return """
         <body style="background: black">
         <div style="text-align: center;">
-        <img src="https://www.danielleskosky.com/wp-content/uploads/media-uploads/what-is-an-api/api-with-outlets.jpg" style="height:150px; width: 300px">
+        <img src="https://wallpapers.com/images/featured/cute-dog-brtwwfga72pilv0j.jpg" style="height:200px; width: 300px; border-radius: 5px; margin-top: 20px">
         <h1 style="color: white">MY API</h1>
         <p style="color: white">API HOST: <script>document.write('<input style="padding: 5px; width: 300px" type="text" value="'+window.location.href+'" />');</script></p>
         <p style="color: white">Start working on your project by following the <a href="https://start.4geeksacademy.com/starters/full-stack" target="_blank" style="color: white">Quick Start</a></p>

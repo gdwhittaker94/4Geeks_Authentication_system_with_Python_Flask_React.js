@@ -91,6 +91,7 @@ def signup():
     new_user = User()
     new_user.email = body['email']
     new_user.password = body['password']
+    new_user.is_active = True
     
     db.session.add(new_user) # adds new user to db
     db.session.commit() # like git commit, saves changes
@@ -102,6 +103,26 @@ def signup():
 # Authenticating that user already exists and returning JSON Web Tokens (JWTs) to them.
 @app.route("/login", methods=['POST'])
 def login():
+    body = request.get_json(silent=True)
+    # Handle Errors
+    if body is None: 
+        return jsonify({'msg': 'You must include a body in the request'}), 400
+    if 'email' not in body: 
+        return jsonify({'msg': 'You need to add an email address'}), 400
+    if 'password' not in body: 
+        return jsonify({'msg': 'You need to add an password'}), 400
+    
+    # Otherwise, check provide credentials against data in db (i.e. does user already exist or not?) 
+    user = User.query.filter_by(email=body['email']).first() # .first() = not to produce a list, only first item 
+    # if user with this email doesn't exist
+    if user is None or user.password != body['password']:
+         return jsonify({'error': 'Incorrect user credentials'}), 400
+
+    # if all good  
+    access_token = create_access_token(identity=user.email) # this func generates the JWT
+    # response to frontend -> user receives JWT
+    return jsonify({'access_token': access_token}) 
+
     # TEST CODE
     username = request.json.get("username", None)
     password = request.json.get("password", None)
@@ -111,30 +132,6 @@ def login():
     access_token = create_access_token(identity=username)
     return jsonify(access_token=access_token)
    
-    body = request.get_json(silent=True)
-    # Handle Errors
-    if body is None: 
-        return jsonify({'msg': 'You must include a body in the request'}), 400
-    if 'email' not in body: 
-        return jsonify({'msg': 'You need to add an email address'})
-    if 'password' not in body: 
-        return jsonify({'msg': 'You need to add an password'})
-    
-    # Otherwise, check provide credentials against data in db (i.e. does user already exist or not?) 
-    user = User.query.filter_by(email=body['email'].first()) # .first() = not to produce a list, only first item 
-    # if user with this email doesn't exist
-    if user is None:
-         return jsonify({'error': 'Incorrect user email'})
-    # if password is not the same
-    if user.password != body['password']:
-        return jsonify({'error': 'Incorrect password'})
-
-    # if all good  
-    access_token = create_access_token(identity=user.email) # this func generates the JWT.
-
-    # response to frontend -> user receives JWT
-    return jsonify({'access_token': access_token}) 
-
 
 # ENDPOINT '/private' 
 @app.route("/private", methods=['GET']) 
@@ -142,7 +139,7 @@ def login():
 def private():
     # return jsonify({'msg': 'Private Method'}) TEST LINE 
     email = get_jwt_identity() # connects user with created JWT
-    return jsonify({'msg': 'Private route', 'user': email}), 200
+    return jsonify({'msg': 'Successfully accessed private route for this user', 'user': email}), 200
 
 
 
