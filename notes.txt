@@ -15,7 +15,7 @@
 
         * use '.gitignore' file to ignore migrations from git commits/pushes
             --> 'backend stuff' --> 'migrations/'
-            
+
 - Una API solo debe tener una forma de autorización 
 
 - JWT EXTENDED LINK: https://flask-jwt-extended.readthedocs.io/en/stable/ 
@@ -23,6 +23,7 @@
 - Flask-Bcrypt LINK: https://flask-bcrypt.readthedocs.io/en/latest/
     +  How-to from class: t.ly/rLPt7 
 
+- JSON WEB TOKENS LINK: https://jwt.io/ 
 
 
 ---------------------
