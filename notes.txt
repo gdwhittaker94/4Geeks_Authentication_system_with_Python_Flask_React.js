@@ -25,6 +25,8 @@
 
 - JSON WEB TOKENS LINK: https://jwt.io/ 
 
+- BOILERPLATE DOCUMENTATION: https://start.4geeksacademy.com/starters/react-flask 
+
 
 ---------------------
 4GEEKS VIDEO NOTES

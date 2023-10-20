@@ -73,7 +73,7 @@ def serve_any_other_file(path):
 # ///////////////////////////////////
 
 # *** ENDPOINT '/signup' ***
-@app.route('/signup', methods=['POST'])
+@app.route('/api/signup', methods=['POST'])
 def signup():
     body = request.get_json(silent=True)
     # Handle Errors
@@ -101,7 +101,7 @@ def signup():
 
 # *** ENDPOINT '/login' ***
 # Authenticating that user already exists and returning JSON Web Tokens (JWTs) to them.
-@app.route("/login", methods=['POST'])
+@app.route("/api/login", methods=['POST'])
 def login():
     body = request.get_json(silent=True)
     # Handle Errors
@@ -134,7 +134,7 @@ def login():
    
 
 # ENDPOINT '/private' 
-@app.route("/private", methods=['GET']) 
+@app.route("/api/private", methods=['GET']) 
 @jwt_required() # requires a JWT to get to this endpoint, protecting the route and ignoring unauthorised requests 
 def private():
     # return jsonify({'msg': 'Private Method'}) TEST LINE 
