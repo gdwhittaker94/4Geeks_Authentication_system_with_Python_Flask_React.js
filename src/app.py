@@ -85,7 +85,7 @@ def signup():
         return jsonify({'msg': 'You need to add an password'})
 
      # Check: email must be unique 
-    if User.query.filter_by(email=body['email']).first() is not None:
+    if User.query.filter_by(email=body['email']).first() is not None: # .first() = not to produce a list, only first item 
         return jsonify({'error': 'This email address already exists'}), 400
 
     new_user = User()
@@ -112,7 +112,7 @@ def login():
     if 'password' not in body: 
         return jsonify({'msg': 'You need to add an password'}), 400
     
-    # Otherwise, check provide credentials against data in db (i.e. does user already exist or not?) 
+    # Otherwise, check that his user already exists in db  
     user = User.query.filter_by(email=body['email']).first() # .first() = not to produce a list, only first item 
     # if user with this email doesn't exist
     if user is None or user.password != body['password']:
@@ -123,14 +123,14 @@ def login():
     # response to frontend -> user receives JWT
     return jsonify({'access_token': access_token}) 
 
-    # TEST CODE
-    username = request.json.get("username", None)
-    password = request.json.get("password", None)
-    if username != "test" or password != "test":
-        return jsonify({"msg": "Bad username or password"}), 401
+    # OLD TEST CODE
+    # username = request.json.get("username", None)
+    # password = request.json.get("password", None)
+    # if username != "test" or password != "test":
+    #     return jsonify({"msg": "Bad username or password"}), 401
 
-    access_token = create_access_token(identity=username)
-    return jsonify(access_token=access_token)
+    # access_token = create_access_token(identity=username)
+    # return jsonify(access_token=access_token)
    
 
 # ENDPOINT '/private' 
@@ -141,7 +141,7 @@ def private():
     email = get_jwt_identity() # connects user with created JWT
     return jsonify({'msg': 'Successfully accessed private route for this user', 'user': email}), 200
 
-
+# NB: IN Postman use "Authorization -> Bearer Token" for testing
 
 # /// END OF FILE ///
 # this only runs if `$ python src/main.py` is executed

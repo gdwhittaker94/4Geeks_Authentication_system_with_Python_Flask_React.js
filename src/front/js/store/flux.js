@@ -23,15 +23,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 			/////////////// MY FUNCTIONS ///////////////
 			createUser: async () => {
 				try {
-					const response = await fetch(process.env.BACKEND_URL + "/api/signup", {
+					const response = await fetch(process.env.BACKEND_URL + "api/signup", {
 						method: 'POST',
-						body: new FormData(document.getElementById('signupForm'))
+						body: {
+							email: "ss@gmail.com",
+							password: "pass123"
+						}
 					});
+					console.log(await response.json())
 					if (!response.ok) {
 						throw new Error('Network response was not ok');
 					}
-					const data = await response.text();
-					alert(data);
 				} catch (error) {
 				  console.error('Error:', error);
 				}
