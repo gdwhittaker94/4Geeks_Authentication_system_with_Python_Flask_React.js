@@ -23,7 +23,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			/////////////// MY FUNCTIONS ///////////////
 			createUser: async () => {
 				try {
-					const response = await fetch(process.env.BACKEND_URL + "api/signup", {
+					const response = await fetch(process.env.BACKEND_URL + "/api/signup", {
 						method: 'POST',
 						body: {
 							email: "ss@gmail.com",
