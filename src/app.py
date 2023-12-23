@@ -75,7 +75,9 @@ def serve_any_other_file(path):
 # *** ENDPOINT '/signup' ***
 @app.route('/api/signup', methods=['POST'])
 def signup():
+
     body = request.get_json(silent=True)
+
     # Handle Errors
     if body is None: 
         return jsonify({'msg': 'You must include a body in the request'}), 400
@@ -84,26 +86,30 @@ def signup():
     if 'password' not in body: 
         return jsonify({'msg': 'You need to add an password'})
 
-     # Check: email must be unique 
-    if User.query.filter_by(email=body['email']).first() is not None: # .first() = not to produce a list, only first item 
+    # Check email is unique 
+    if User.query.filter_by(email=body['email']).first() is not None: 
+        # .first() = not to produce a list, only first item 
         return jsonify({'error': 'This email address already exists'}), 400
 
+    #Create new user
     new_user = User()
     new_user.email = body['email']
     new_user.password = body['password']
     new_user.is_active = True
     
-    db.session.add(new_user) # adds new user to db
-    db.session.commit() # like git commit, saves changes
+    # Add to db
+    db.session.add(new_user) 
+    db.session.commit()
 
     # Frontend Response 
     return jsonify ({'msg': 'User successfully created'}), 200
 
 # *** ENDPOINT '/login' ***
-# Authenticating that user already exists and returning JSON Web Tokens (JWTs) to them.
 @app.route("/api/login", methods=['POST'])
 def login():
+
     body = request.get_json(silent=True)
+
     # Handle Errors
     if body is None: 
         return jsonify({'msg': 'You must include a body in the request'}), 400
@@ -112,36 +118,28 @@ def login():
     if 'password' not in body: 
         return jsonify({'msg': 'You need to add an password'}), 400
     
-    # Otherwise, check that his user already exists in db  
-    user = User.query.filter_by(email=body['email']).first() # .first() = not to produce a list, only first item 
-    # if user with this email doesn't exist
+    # Check user already exists   
+    user = User.query.filter_by(email=body['email']).first() 
+    # if not:
     if user is None or user.password != body['password']:
          return jsonify({'error': 'Incorrect user credentials'}), 400
-
-    # if all good  
-    access_token = create_access_token(identity=user.email) # this func generates the JWT
+    # if yes, generate the JWT:
+    access_token = create_access_token(identity=user.email) 
+    
     # response to frontend -> user receives JWT
-    return jsonify({'access_token': access_token}) 
-
-    # OLD TEST CODE
-    # username = request.json.get("username", None)
-    # password = request.json.get("password", None)
-    # if username != "test" or password != "test":
-    #     return jsonify({"msg": "Bad username or password"}), 401
-
-    # access_token = create_access_token(identity=username)
-    # return jsonify(access_token=access_token)
-   
+    return jsonify({'access_token': access_token})    
 
 # ENDPOINT '/private' 
 @app.route("/api/private", methods=['GET']) 
-@jwt_required() # requires a JWT to get to this endpoint, protecting the route and ignoring unauthorised requests 
+# jwt required to access: protects route, ignores unauthorised requests
+@jwt_required() 
 def private():
-    # return jsonify({'msg': 'Private Method'}) TEST LINE 
-    email = get_jwt_identity() # connects user with created JWT
+    # connect user with JWT
+    email = get_jwt_identity() 
     return jsonify({'msg': 'Successfully accessed private route for this user', 'user': email}), 200
 
-# NB: IN Postman use "Authorization -> Bearer Token" for testing
+    # In Postman use "Authorization -> Bearer Token" for testing
+
 
 # /// END OF FILE ///
 # this only runs if `$ python src/main.py` is executed

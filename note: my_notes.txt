@@ -16,3 +16,4 @@ OTHER PROJECTS TO REFERENCE:
 - Starwars Blog: https://github.com/gdwhittaker94/4Geeks_stars_wars_blog/blob/master/src/js/store/flux.js
 - Vanesa Auth. Project: https://github.com/vanesascode/4Geeks-exercise-Authentication-system-with-Python-Flask-and-React.js/blob/main/src/app.py
 - SWITCH: https://github.com/gdwhittaker94/4Geeks_SWITCH/tree/main/src/api 
+- contact list: https://github.com/gdwhittaker94/4Geeks_contact_list_app/tree/master/src/js
