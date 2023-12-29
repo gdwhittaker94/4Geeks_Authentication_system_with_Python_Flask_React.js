@@ -4,10 +4,9 @@ import { Context } from "../store/appContext";
 import "../../styles/home.css";
 import { useNavigate } from "react-router-dom";
 
-// Get the body for the POST Request 
-// Make the create user request
-// when the user signs up handle the Response message
-// if successfull navigate to your login page
+/* TODO
+	- Nice user message to stay signup successful (not just an alert!)
+*/
 
 export const Signup = () => {
 	const { store, actions } = useContext(Context);
@@ -66,9 +65,6 @@ export const Signup = () => {
 					Login Here
 				</Link>
 			</p>
-			{/* <div className="alert alert-info">
-				{store.message || "Loading message from the backend (make sure your python backend is running)..."}
-			</div> */}
 		</div>
 	);
 };

@@ -37,6 +37,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error(error);
 				}
 			},
+
+			// LOGIN
+			loginUser: async (email, password) => {
+				console.log("login values:", email, password)
+			}
+
+			// fetch
+			
 		}
 	}
 };

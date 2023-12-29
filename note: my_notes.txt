@@ -6,10 +6,7 @@
     1. Creating a token
     2. Storing that token 
     3. Making sure that token is used from then on 
-
-
-
-
+    
 
 OTHER PROJECTS TO REFERENCE:
 - Starwars REST API: https://github.com/4GeeksAcademy/starwars_rest_API_GDW/blob/main/src/app.py
