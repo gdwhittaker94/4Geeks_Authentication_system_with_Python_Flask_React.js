@@ -122,7 +122,7 @@ def login():
     user = User.query.filter_by(email=body['email']).first() 
     # if not:
     if user is None or user.password != body['password']:
-         return jsonify({'error': 'Incorrect user credentials'}), 400
+        return jsonify({'error': 'Incorrect user credentials'}), 400
     # if yes, generate the JWT:
     access_token = create_access_token(identity=user.email) 
     

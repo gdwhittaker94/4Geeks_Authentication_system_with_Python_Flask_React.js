@@ -1,14 +1,24 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
+import { useNavigate } from "react-router-dom";
+import "../../styles/home.css";
+
 
 export const Login = () => {
 	const { store, actions } = useContext(Context);
+	const navigate = useNavigate();
 
 	const startUserLogin = (e) => {
-		console.log(e.target[0].value, e.target[1].value)
+		// console.log("pre", e.target[0].value, e.target[1].value)
 		e.preventDefault();
+		actions.loginUser(e.target[0].value, e.target[1].value)
 	}
+
+	useEffect(() => {
+		store.userLoggedIn === true? navigate('/private') : null;
+		store.userLoggedIn = false;
+	}, [store.userLoggedIn])
 
 	return (
 		<div className="text-center mt-5">

@@ -3,8 +3,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 		store: {
 			////////////// MY STORE/STATE //////////////
 			userSignedUp: false,
-
-		},
+			userLoggedIn: false,
+			token: "",
+		},	
 		actions: {
 			/////////////// MY FUNCTIONS ///////////////
 
@@ -40,11 +41,54 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			// LOGIN
 			loginUser: async (email, password) => {
-				console.log("login values:", email, password)
-			}
+				const store = getStore()
+				// console.log("login values received:", email, password)
 
-			// fetch
-			
+				// fetch
+				try {
+					const response = await fetch(process.env.BACKEND_URL + '/api/login', {
+						method: 'POST',
+						headers: {'Content-type': 'application/json'},
+						body: JSON.stringify({
+							email: email,
+							password: password 
+						})
+					});
+					console.log("response:", response)
+					if(!response.ok) {
+						console.error(response.text)
+						throw new Error(response.statusText)
+					}
+					const responseData = await response.json()
+					console.log("Access Token:", responseData.access_token)
+
+					// Further actions
+					localStorage.setItem('jwt-token', responseData.access_token)
+					console.log("localStorage:", localStorage)
+					setStore({userLoggedIn: true})
+					setStore({token: localStorage.getItem('jwt-token')})
+					// console.log("store token:", store.token)
+				} catch (error) {
+					console.error(error)
+				}
+			},
+
+			// TOKEN SYNC 
+			syncTokenFromStorage: () => {
+				const token = localStorage.getItem('jwt-token')
+				if(token && token !='' && token != undefined){
+					setStore({token: token})
+				}
+				console.log("current token value in store:", token)
+			}, 
+
+			// LOGOUT
+			logout: () => {
+				localStorage.removeItem('jwt-token')
+				console.log("localStorage:", localStorage)
+				setStore({token: null})
+				console.log("current token value in store:", token)
+			}, 
 		}
 	}
 };

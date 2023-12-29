@@ -29,3 +29,37 @@ BOILERPLATE DOCUMENTATION:
 - https://start.4geeksacademy.com/starters/react-flask 
 
 
+Notes to self:
+- Got sign up and login functionalities working
+
+- We get a token after logging in and it's stored both 
+in the flux store and in local storage 
+
+- We also now have a function that runs on each re-render of 
+the app (in appContext.js). It gets the token value stored there
+and, if there is an actual token value, it sets the token value
+in the store to that (otherwise the value is lost on each 
+render)
+
+- The login page redirects the user to the private page 
+
+TODO: 
+1. Change what the user sees in the login page depending on if
+there's a valid token or not (i.e., remove the login inputs
+and show a message like "You are already logged in")
+
+2. Watch alejandro video from 1:00:00 
+
+3. Finish private page --> logout functionality (check token
+disappears), return user to home page 
+
+4. Make sure you can't just add "/private" to url and access 
+the page without a token --> a useEffect checking token value 
+in store? 
+
+    ...But if we do add '/private' to url and we have a token, we
+    do access the page. 
+
+5. Compare with Vanesa's project
+
+6. Do up design 

@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
-import "../../styles/home.css";
 import { useNavigate } from "react-router-dom";
+import "../../styles/home.css";
 
 /* TODO
 	- Nice user message to stay signup successful (not just an alert!)

@@ -23,6 +23,7 @@ const injectContext = PassedComponent => {
 
 		useEffect(() => {
 		/* Equivalent to "window.onLoad"*/
+		state.actions.syncTokenFromStorage();
 		}, []);
 
 		// The initial value for the context is not null anymore, but the current state of this component,
