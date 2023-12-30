@@ -29,17 +29,7 @@ BOILERPLATE DOCUMENTATION:
 - https://start.4geeksacademy.com/starters/react-flask 
 
 
-Notes to self:
-- Duplicating Sara's code. Login page is now home page. 
-- Have commented out bcrypt because was causing erros which I couldn't easily resolve. 
-- Then I want to try out the "startUserLogin" function on login page --> all working?
-- Sara activates "accessPrivateArea" function after her login function ... do the same? 
-- Need to redirect logged in user to private area 
-
 TODO: 
-
-3. Finish private page --> logout functionality (check token
-disappears), return user to home page 
 
 4. Make sure you can't just add "/private" to url and access 
 the page without a token --> a useEffect checking token value 
@@ -48,6 +38,10 @@ in store?
     ...But if we do add '/private' to url and we have a token, we
     do access the page. 
 
-5. Compare with Vanesa's project
+5. Do up design 
 
-6. Do up design 
+Problems:
+Sign up user causes "Logged In" page to appear
+Then log out and then can't get to sign up page again
+
+**LOOK AT LAST CHATGPT Q&A

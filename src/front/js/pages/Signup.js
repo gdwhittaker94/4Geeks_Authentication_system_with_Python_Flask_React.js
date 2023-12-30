@@ -4,23 +4,26 @@ import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
 import "../../styles/home.css";
 
-/* TODO
-	- Nice user message to stay signup successful (not just an alert!)
-*/
-
 export const Signup = () => {
 	const { store, actions } = useContext(Context);
 	const navigate = useNavigate();
 
 	function startCreateUser(e) {
-		// console.log(e.target[0].value, e.target[1].value)
 		e.preventDefault();
-		actions.createUser(e.target[0].value, e.target[1].value);
+
+		// console.log(e.target[0].value, e.target[1].value)
+
+		if (e.target[0].value.trim() === "" || e.target[1].value.trim() === "") {
+			alert("Please fill in all fields")
+		} else {
+			actions.createUser(e.target[0].value, e.target[1].value);
+		}
 	}
 
 	useEffect(() => {
-		store.userSignedUp === true? navigate('/login') : null;
+		store.userSignedUp === true? alert("User Successfully Created") : null;
 		store.userSignedUp = false;
+		navigate('/')
 	}, [store.userSignedUp])
 
 	return (
@@ -61,7 +64,7 @@ export const Signup = () => {
 			</form>
 			{/* LOGIN ALTERNATIVE */}
 			<p className="mt-3">
-				Or <Link to={'/Login'}>
+				Or <Link to={'/'}>
 					Login Here
 				</Link>
 			</p>

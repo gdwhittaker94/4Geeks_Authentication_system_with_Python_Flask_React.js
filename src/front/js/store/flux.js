@@ -4,8 +4,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			////////////// MY STORE/STATE //////////////
 			userSignedUp: false,
 			userLoggedIn: false,
-			permissionGranted: false,
+			allowedAccess: false,
 			token: "",
+			user: ""
 		},
 		actions: {
 			/////////////// MY FUNCTIONS ///////////////
@@ -35,11 +36,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Access Token:", responseData.access_token)
 
 					// Further actions
-					localStorage.setItem('token', responseData.access_token)
-					console.log("localStorage:", localStorage)
+					// Store token in Session Storage
+					sessionStorage.setItem('token', responseData.access_token)
+					console.log("sessionStorage:", sessionStorage)
+
+					// Store Token in Store
+					setStore({ token: sessionStorage.getItem('token') })
+					console.log("store token:", store.token)
+
+					// Change Boolean Value 
 					setStore({ userLoggedIn: true })
-					// setStore({ token: localStorage.getItem('token') })
-					// console.log("store token:", store.token)
+
 				} catch (error) {
 					console.error(error)
 				}
@@ -47,27 +54,33 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			// PRIVATE AREA ACCESS
 			accessPrivateArea: async () => {
-				const storedToken = localStorage.getItem('token');
-	   
-				const response = await fetch(process.env.BACKEND_URL + "/api/private", {
-				   method: 'GET',
-				   headers: { 
-					 "Content-Type": "application/json",
-					 "Authorization": 'Bearer '+ storedToken
-				   } 
-				})
+				const store = getStore();
 
-				if (!response.ok) {
-					console.error(response.text)
-					throw new Error(response.statusText);
+				try {
+					const response = await fetch(process.env.BACKEND_URL + "/api/private", {
+						method: 'GET',
+						headers: {
+							"Content-Type": "application/json",
+							"Authorization": 'Bearer ' + store.token
+						}
+					})
+					console.log("response:", response)
+
+					if (!response.ok) {
+						console.error(response.text)
+						throw new Error(response.statusText);
+					}
+
+					const responseData = await response.json();
+					console.log("responseData:", responseData);
+
+					// further actions
+					setStore({ allowedAccess: true });
+					setStore({ user: responseData.user})
+				} catch (error) {
+					console.error(error)
 				}
-				
-				const responseData = await response.json();
-				console.log("responseData:", responseData);
-
-				// further actions
-				setStore({ permissionGranted: true });
-		   },
+			},
 
 			// SIGNUP - CREATE NEW USER IN DB
 			createUser: async (email, password) => {
@@ -101,7 +114,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			// TOKEN SYNC 
 			// syncTokenFromStorage: () => {
-			// 	const token = localStorage.getItem('token')
+			// 	const token = sessionStorage.getItem('token')
 			// 	if (token && token != '' && token != undefined) {
 			// 		setStore({ token: token })
 			// 	}
@@ -110,10 +123,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			// LOGOUT
 			logOut: () => {
-				localStorage.removeItem('token')
-				console.log("localStorage:", localStorage)
+				const store = getStore();
+				sessionStorage.removeItem('token')
+				console.log("sessionStorage:", sessionStorage)
 				setStore({ token: null })
-				console.log("current token value in store:", token)
+				console.log("current token value in store:", store.token)
 			},
 		}
 	}
