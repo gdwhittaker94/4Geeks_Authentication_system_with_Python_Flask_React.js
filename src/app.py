@@ -11,8 +11,10 @@ from api.models import db, User
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
+
 # JWT Extended Imports 
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, JWTManager
+# from flask_bcrypt import Bcrypt
 
 # Environment?
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
@@ -23,6 +25,7 @@ app.url_map.strict_slashes = False
 # Setup the Flask-JWT-Extended extension
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET") 
 jwt = JWTManager(app)
+# bcrypt = Bcrypt(app)
 
 # database configuration
 db_url = os.getenv("DATABASE_URL")
@@ -72,6 +75,37 @@ def serve_any_other_file(path):
 # /// MY ENDPOINTS + JWT EXTENDED ///
 # ///////////////////////////////////
 
+# *** ENDPOINT '/login' ***
+@app.route("/api/login", methods=['POST'])
+def login():
+
+    body = request.get_json(silent=True)
+
+    # Handle Errors
+    if body is None: 
+        return jsonify({'msg': 'You must include a body in the request'}), 400
+    if 'email' not in body: 
+        return jsonify({'msg': 'You need to add an email address'}), 400
+    if 'password' not in body: 
+        return jsonify({'msg': 'You need to add an password'}), 400
+    
+    # Check user already exists   
+    user = User.query.filter_by(email=body['email'], password=body['password']).first() 
+  
+    # if not:
+    if user is None:
+        return jsonify({'error:': 'That user does not exist'})
+    
+    # wrong password
+    if user.password != body['password']:
+        return jsonify({'error': 'Incorrect user credentials'}), 400
+  
+    # all good, generate the JWT:
+    access_token = create_access_token(identity=user.email) 
+    
+    # response to frontend -> user receives JWT
+    return jsonify({'access_token': access_token})    
+
 # *** ENDPOINT '/signup' ***
 @app.route('/api/signup', methods=['POST'])
 def signup():
@@ -91,6 +125,9 @@ def signup():
         # .first() = not to produce a list, only first item 
         return jsonify({'error': 'This email address already exists'}), 400
 
+    #Encrypt user's password
+    # pw_hash = bcrypt.generate_password_hash(body['password']).decode('utf-8')
+
     #Create new user
     new_user = User()
     new_user.email = body['email']
@@ -104,31 +141,6 @@ def signup():
     # Frontend Response 
     return jsonify ({'msg': 'User successfully created'}), 200
 
-# *** ENDPOINT '/login' ***
-@app.route("/api/login", methods=['POST'])
-def login():
-
-    body = request.get_json(silent=True)
-
-    # Handle Errors
-    if body is None: 
-        return jsonify({'msg': 'You must include a body in the request'}), 400
-    if 'email' not in body: 
-        return jsonify({'msg': 'You need to add an email address'}), 400
-    if 'password' not in body: 
-        return jsonify({'msg': 'You need to add an password'}), 400
-    
-    # Check user already exists   
-    user = User.query.filter_by(email=body['email']).first() 
-    # if not:
-    if user is None or user.password != body['password']:
-        return jsonify({'error': 'Incorrect user credentials'}), 400
-    # if yes, generate the JWT:
-    access_token = create_access_token(identity=user.email) 
-    
-    # response to frontend -> user receives JWT
-    return jsonify({'access_token': access_token})    
-
 # ENDPOINT '/private' 
 @app.route("/api/private", methods=['GET']) 
 # jwt required to access: protects route, ignores unauthorised requests
@@ -136,8 +148,8 @@ def login():
 def private():
     # connect user with JWT
     email = get_jwt_identity() 
-    return jsonify({'msg': 'Successfully accessed private route for this user', 'user': email}), 200
-
+    return jsonify({'msg': 'Accessed private route for this user', 'user': email}), 200
+   
     # In Postman use "Authorization -> Bearer Token" for testing
 
 
