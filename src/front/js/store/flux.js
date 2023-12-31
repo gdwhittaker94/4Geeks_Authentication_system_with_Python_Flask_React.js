@@ -26,14 +26,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 							password: password
 						})
 					});
-					console.log("response:", response)
+					console.log("login response:", response)
 
 					if (!response.ok) {
 						console.error(response.text)
 						throw new Error(response.statusText)
 					}
 					const responseData = await response.json()
-					console.log("Access Token:", responseData.access_token)
+					// console.log("Access Token:", responseData.access_token)
 
 					// Further actions
 					// Store token in Session Storage
@@ -46,6 +46,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					// Change Boolean Value 
 					setStore({ userLoggedIn: true })
+					console.log("userLoggedIn:", store.userLoggedIn)
 
 				} catch (error) {
 					console.error(error)
@@ -64,7 +65,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 							"Authorization": 'Bearer ' + store.token
 						}
 					})
-					console.log("response:", response)
+					console.log("private response:", response)
 
 					if (!response.ok) {
 						console.error(response.text)
@@ -72,11 +73,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 
 					const responseData = await response.json();
-					console.log("responseData:", responseData);
+					console.log("private responseData:", responseData);
 
 					// further actions
-					setStore({ allowedAccess: true });
 					setStore({ user: responseData.user})
+					console.log("user:", store.user)
+
+					setStore({ allowedAccess: true });
+					console.log("allowedAccess:", store.allowedAccess)
+					
 				} catch (error) {
 					console.error(error)
 				}
@@ -112,6 +117,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+			// LOGOUT
+			logOut: () => {
+				const store = getStore();
+
+				sessionStorage.removeItem('token')
+				console.log("sessionStorage:", sessionStorage)
+
+				setStore({ token: null })
+				console.log("store token:", store.token)
+
+				setStore({ userLoggedIn: false })
+				console.log("userLoggedIn:", store.userLoggedIn)
+			},
+
 			// TOKEN SYNC 
 			// syncTokenFromStorage: () => {
 			// 	const token = sessionStorage.getItem('token')
@@ -120,15 +139,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			// 	}
 			// 	console.log("current token value in store:", token)
 			// },
-
-			// LOGOUT
-			logOut: () => {
-				const store = getStore();
-				sessionStorage.removeItem('token')
-				console.log("sessionStorage:", sessionStorage)
-				setStore({ token: null })
-				console.log("current token value in store:", store.token)
-			},
 		}
 	}
 };

@@ -22,20 +22,8 @@ export const Login = () => {
 		actions.logOut()
 	}
 
-	useEffect(() => {
-		store.userLoggedIn === true ? actions.accessPrivateArea() : null;
-		store.userLoggedIn = false;
-	}, [store.userLoggedIn])
-
-	useEffect(() => {
-		store.allowedAccess === true ? navigate('/private') : null;
-		store.allowedAccess = false;
-	}, [store.allowedAccess])
-
-	// console.log("token status:", store.token)
-
 	return (
-		store.token && store.token != '' && store.token != undefined ?
+		store.userLoggedIn?
 			<div className="text-center mt-5">
 				<h1>You are logged in!</h1>
 				<p className="mt-3">

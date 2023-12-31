@@ -21,10 +21,11 @@ export const Signup = () => {
 	}
 
 	useEffect(() => {
-		store.userSignedUp === true? alert("User Successfully Created") : null;
+		store.userSignedUp === true? (alert("User Successfully Created"), navigate('/')) : null;
 		store.userSignedUp = false;
-		navigate('/')
 	}, [store.userSignedUp])
+
+	// console.log("store userLoggedIn:", store.userLoggedIn)
 
 	return (
 		<div className="text-center mt-5">
