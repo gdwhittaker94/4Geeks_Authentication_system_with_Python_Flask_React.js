@@ -130,15 +130,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ userLoggedIn: false })
 				console.log("userLoggedIn:", store.userLoggedIn)
 			},
-
-			// TOKEN SYNC 
-			// syncTokenFromStorage: () => {
-			// 	const token = sessionStorage.getItem('token')
-			// 	if (token && token != '' && token != undefined) {
-			// 		setStore({ token: token })
-			// 	}
-			// 	console.log("current token value in store:", token)
-			// },
 		}
 	}
 };

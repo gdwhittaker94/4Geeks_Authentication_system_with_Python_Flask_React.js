@@ -34,7 +34,7 @@ export const Private = () => {
 			}
 
 			{!store.userLoggedIn && loggedIn && loading &&
-				(<p>Returning you to the home page</p>)
+				(<p>Returning you to the log in page</p>)
 			}
 
 			{store.userLoggedIn && loggedIn && loading &&
