@@ -20,7 +20,7 @@ export const Signup = () => {
 	}
 
 	useEffect(() => {
-		store.userSignedUp === true? (alert("User Successfully Created"), navigate('/')) : null;
+		store.userSignedUp === true ? (alert("User Successfully Created"), navigate('/')) : null;
 		store.userSignedUp = false;
 	}, [store.userSignedUp])
 
@@ -28,12 +28,12 @@ export const Signup = () => {
 
 	return (
 		<div className="text-center mt-5">
-			<h1>Create User</h1>
+			<h1 className="fw-bold">Create User</h1>
 			{/* FORM */}
-			<form onSubmit={startCreateUser} id="signupForm">
+			<form onSubmit={startCreateUser} id="signupForm" className="d-flex flex-column align-items-center">
 				<label
 					htmlFor="email"
-					className="me-1"
+					className="fw-bold pb-1"
 				>
 					Email:
 				</label>
@@ -41,12 +41,12 @@ export const Signup = () => {
 					type="text"
 					id="email"
 					name="email"
-					className="my-3"
+					className="text-center rounded-pill border border-light bg-warning-subtle ps-2"
 				/>
 				<br></br>
 				<label
 					htmlFor="password"
-					className="me-1"
+					className="fw-bold pb-1"
 				>
 					Password:
 				</label>
@@ -54,20 +54,22 @@ export const Signup = () => {
 					type="password"
 					id="password"
 					name="password"
-					className="mb-3"
+					className="text-center rounded-pill border border-light bg-warning-subtle ps-2"
 				/>
 				<br></br>
 				<input
 					type="submit"
-					value="Submit" 
+					value="Submit"
+					className="fw-bold text-white bg-black border border-light rounded-2 px-2 py-1 submit-button"
 				/>
 			</form>
 			{/* LOGIN ALTERNATIVE */}
-			<p className="mt-3">
-				Or <Link to={'/'}>
-					Login Here
-				</Link>
-			</p>
+			<Link to={'/'} className="page-link">
+				<p className="mt-3 text-white">
+					Back to Login
+				</p>
+			</Link>
+
 		</div>
 	);
 };

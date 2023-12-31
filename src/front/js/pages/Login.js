@@ -25,57 +25,58 @@ export const Login = () => {
 		store.userLoggedIn?
 			<div className="text-center mt-5">
 				<h1>You are logged in!</h1>
-				<p className="mt-3">
-					<Link to={'/private'}>
+				<Link to={'/private'} className="page-link">
+					<p className="mt-3 text-white">
 						Go to your private area
-					</Link>
-				</p>
-				<p className="mt-3">
-					<Link to={'/'} onClick={startLogOut}>
+					</p>
+				</Link>
+				<Link to={'/'} className="page-link" onClick={startLogOut}>
+					<p className="mt-3 text-white">
 						Log out
-					</Link>
-				</p>
+					</p>
+				</Link>
 			</div>
 			:
 			<div className="text-center mt-5">
-				<h1>Login</h1>
+				<h1 className="fw-bold">Login</h1>
 				<p>Already have an account? Please log in</p>
-				<form onSubmit={startUserLogin} id="loginForm">
+				<form onSubmit={startUserLogin} id="loginForm" className="d-flex flex-column align-items-center">
 					<label
 						htmlFor="email"
-						className="me-1"
+						className="fw-bold pb-1"
 					>
-						Email:
+						Email
 					</label>
 					<input
 						type="text"
 						id="email"
 						name="email"
-						className="my-3"
+						className="text-center rounded-pill border border-light bg-warning-subtle ps-2"
 					/>
 					<br></br>
 					<label
 						htmlFor="password"
-						className="me-1"
+						className="fw-bold pb-1"
 					>
-						Password:
+						Password
 					</label>
 					<input
 						type="password"
 						id="password"
 						name="password"
-						className="mb-3"
+						className="text-center rounded-pill border border-light bg-warning-subtle ps-2"
 					/>
 					<br></br>
 					<input
 						type="submit"
 						value="Submit"
+						className="fw-bold text-white bg-black border border-light rounded-2 px-2 py-1 loginSubmit"
 					/>
 				</form>
 				{/* SIGN UP */}
-				<Link to={'/signup'}>
-					<p className="mt-3">
-						Or create an account here
+				<Link to={'/signup'} className="page-link">
+					<p className="mt-3 text-white">
+						Create a new account
 					</p>
 				</Link>
 			</div>
