@@ -1,0 +1,52 @@
+-----------------
+PROJECT NOTES + RESOURCES
+
+Open backend: 
+(pipenv install) ... pipenv run start 
+
+Open frontend: 
+(npm install) ... npm run start 
+
+Database Quick User Creation:
+- commands.py
+- $ flask insert-test-users 5
+- Switch e.g: https://github.com/gdwhittaker94/4Geeks_SWITCH/blob/main/src/api/commands.py
+
+Ignore Migrations in git commits/pushes:
+- go to ".gitignore" file
+- add 'migrations/' to 'backend stuff' 
+
+4Geeks Class:
+- https://www.youtube.com/watch?v=Ei9Cv5uIedk&list=PL2ZWqWbnARIO9Gnt5n0LFiTMz4M1OLgpg&index=36&ab_channel=4GeeksEspa%C3%B1a
+
+JWT EXTENDED LINK:
+- https://flask-jwt-extended.readthedocs.io/en/stable/  
+
+Flask-Bcrypt LINK:
+- https://flask-bcrypt.readthedocs.io/en/latest/
+
+JSON WEB TOKENS LINK:
+- https://jwt.io/ 
+
+BOILERPLATE DOCUMENTATION: 
+- https://start.4geeksacademy.com/starters/react-flask 
+
+------------------
+
+4GEEKS VIDEO
+- https://www.youtube.com/watch?v=8-W2O_R95Pk&ab_channel=4Geeks 
+
+- There are 3 challenges for creating authentication:
+
+    1. Creating a token
+    2. Storing that token 
+    3. Making sure that token is used from then on 
+
+-------------------
+
+OTHER PROJECTS TO REFERENCE:
+- Starwars REST API: https://github.com/4GeeksAcademy/starwars_rest_API_GDW/blob/main/src/app.py
+- Starwars Blog: https://github.com/gdwhittaker94/4Geeks_stars_wars_blog/blob/master/src/js/store/flux.js
+- Vanesa Auth. Project: https://github.com/vanesascode/4Geeks-exercise-Authentication-system-with-Python-Flask-and-React.js/blob/main/src/app.py
+- SWITCH: https://github.com/gdwhittaker94/4Geeks_SWITCH/tree/main/src/api 
+- contact list: https://github.com/gdwhittaker94/4Geeks_contact_list_app/tree/master/src/js
