@@ -2,7 +2,7 @@
 
 This project taught us about how to increase the security of our applications through the use of security tokens and password encryption when users create an account in our app and/or login to it. 
 
-<img src="https://github.com/breatheco-de/content/blob/master/src/assets/images/authentication-diagram.png?raw=true" alt="Autentication workflow" height="200px" width="200px"/>
+<img src="https://github.com/breatheco-de/content/blob/master/src/assets/images/authentication-diagram.png?raw=true" alt="Autentication workflow" height="300px" width="500px"/>
 
 
 Security tokens allows us to identify who wants access to our website or webpage and decide whether that user should be allowed access or not, or what kind of access they should be allowed to have within our app. For this project we used JWT (JSON WEB TOKEN), a popular standard for security tokens which do not get saved onto a database and contain all the necessary information needed for authentication within the token. You can learn more about [here](https://jwt.io/introduction), and we used Python and the Flask library to do integrate this functionality into our app.
