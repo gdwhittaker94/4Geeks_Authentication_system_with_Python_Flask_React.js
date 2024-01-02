@@ -14,7 +14,7 @@ from api.commands import setup_commands
 
 # JWT Extended Imports 
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, JWTManager
-# from flask_bcrypt import Bcrypt
+from flask_bcrypt import Bcrypt
 
 # Environment?
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
@@ -25,7 +25,7 @@ app.url_map.strict_slashes = False
 # Setup the Flask-JWT-Extended extension
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET") 
 jwt = JWTManager(app)
-# bcrypt = Bcrypt(app)
+bcrypt = Bcrypt(app)
 
 # database configuration
 db_url = os.getenv("DATABASE_URL")
@@ -90,15 +90,15 @@ def login():
         return jsonify({'msg': 'You need to add an password'}), 400
     
     # Check user already exists   
-    user = User.query.filter_by(email=body['email'], password=body['password']).first() 
+    user = User.query.filter_by(email=body['email']).first() 
   
     # if not:
     if user is None:
         return jsonify({'error:': 'That user does not exist'})
     
-    # wrong password
-    if user.password != body['password']:
-        return jsonify({'error': 'Incorrect user credentials'}), 400
+    # check given password against (encrypted) password in db
+    if not bcrypt.check_password_hash(user.password, body['password']):
+         return jsonify({'error': 'Incorrect user credentials'}), 400
   
     # all good, generate the JWT:
     access_token = create_access_token(identity=user.email) 
@@ -126,12 +126,12 @@ def signup():
         return jsonify({'error': 'This email address already exists'}), 400
 
     #Encrypt user's password
-    # pw_hash = bcrypt.generate_password_hash(body['password']).decode('utf-8')
+    pw_hash = bcrypt.generate_password_hash(body['password']).decode('utf-8')
 
     #Create new user
     new_user = User()
     new_user.email = body['email']
-    new_user.password = body['password']
+    new_user.password = pw_hash
     new_user.is_active = True
     
     # Add to db
@@ -139,7 +139,7 @@ def signup():
     db.session.commit()
 
     # Frontend Response 
-    return jsonify ({'msg': 'User successfully created'}), 200
+    return jsonify ({'msg': 'User with email {} successfully created'.format(body['email'])}), 200
 
 # ENDPOINT '/private' 
 @app.route("/api/private", methods=['GET']) 

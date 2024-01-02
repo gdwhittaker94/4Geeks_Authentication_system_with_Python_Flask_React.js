@@ -42,11 +42,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					// Store Token in Store
 					setStore({ token: sessionStorage.getItem('token') })
-					console.log("store token:", store.token)
+					// console.log("store token:", store.token)
 
 					// Change Boolean Value 
 					setStore({ userLoggedIn: true })
-					console.log("userLoggedIn:", store.userLoggedIn)
+					// console.log("userLoggedIn:", store.userLoggedIn)
 
 				} catch (error) {
 					console.error(error)
@@ -80,7 +80,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("user:", store.user)
 
 					setStore({ allowedAccess: true });
-					console.log("allowedAccess:", store.allowedAccess)
+					// console.log("allowedAccess:", store.allowedAccess)
 					
 				} catch (error) {
 					console.error(error)
@@ -124,11 +124,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				sessionStorage.removeItem('token')
 				console.log("sessionStorage:", sessionStorage)
 
-				setStore({ token: null })
-				console.log("store token:", store.token)
+				setStore({ token: "" })
+				// console.log("store token:", store.token)
 
 				setStore({ userLoggedIn: false })
-				console.log("userLoggedIn:", store.userLoggedIn)
+				// console.log("userLoggedIn:", store.userLoggedIn)
 			},
 		}
 	}

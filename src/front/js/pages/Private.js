@@ -55,7 +55,7 @@ export const Private = () => {
 			{store.userLoggedIn && loggedIn && loading &&
 				(
 					<>
-						<span class="loader"></span>
+						<span className="loader"></span>
 						<div className="d-flex flex-column token-cntr">
 							<p className="token-text">Token Status</p>
 							{store.token === "" ?

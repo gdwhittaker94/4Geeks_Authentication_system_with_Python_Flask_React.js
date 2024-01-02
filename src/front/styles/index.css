@@ -99,7 +99,13 @@ body {
     width: 50px;
     margin-inline: auto;
     position: relative;
+    transition: transform 200ms;
 }
+
+.token-img:hover {
+    transform: scale(1.15);
+}
+
 
 .token-img:after {
     content: "";

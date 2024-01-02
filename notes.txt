@@ -16,31 +16,33 @@ Ignore Migrations in git commits/pushes:
 - go to ".gitignore" file
 - add 'migrations/' to 'backend stuff' 
 
-4Geeks Class:
-- https://www.youtube.com/watch?v=Ei9Cv5uIedk&list=PL2ZWqWbnARIO9Gnt5n0LFiTMz4M1OLgpg&index=36&ab_channel=4GeeksEspa%C3%B1a
+4Geeks Class Jose Caro:
+- https://youtu.be/Ei9Cv5uIedk?si=h-3ukbSDrKuSp97k
 
-JWT EXTENDED LINK:
-- https://flask-jwt-extended.readthedocs.io/en/stable/  
-
-Flask-Bcrypt LINK:
-- https://flask-bcrypt.readthedocs.io/en/latest/
-
-JSON WEB TOKENS LINK:
-- https://jwt.io/ 
-
-BOILERPLATE DOCUMENTATION: 
+Boilerplate Documentation: 
 - https://start.4geeksacademy.com/starters/react-flask 
 
-------------------
+4Geeks Project Video Alejandro Sanchez
+- https://youtu.be/8-W2O_R95Pk?si=r9wZjcmCg7k20y_E 
 
-4GEEKS VIDEO
-- https://www.youtube.com/watch?v=8-W2O_R95Pk&ab_channel=4Geeks 
-
-- There are 3 challenges for creating authentication:
-
+    -> 3 main objectives for this project:
     1. Creating a token
     2. Storing that token 
     3. Making sure that token is used from then on 
+
+------------------
+EXTERNAL LINKS
+
+JWT EXTENDED:
+- https://flask-jwt-extended.readthedocs.io/en/stable/  
+- How to install Jose Car: https://youtu.be/Ei9Cv5uIedk?si=kkHx4e3cGZHrXy1r&t=1736
+
+FLASK-BCRYPT:
+- https://flask-bcrypt.readthedocs.io/en/latest/
+- How to install Jose Caro: https://www.youtube.com/watch?v=Ei9Cv5uIedk&t=5703s&ab_channel=4GeeksEspa%C3%B1a
+
+JSON WEB TOKENS LINK:
+- https://jwt.io/ 
 
 -------------------
 
