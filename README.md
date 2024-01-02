@@ -12,7 +12,9 @@ Security tokens allows us to identify who wants access to our website or webpage
 <img src="https://github.com/breatheco-de/content/blob/master/src/assets/images/jwt-token-structure.png?raw=true" alt="Autentication workflow" height="150px" width="550px"/>
 
 HEADER: Stores the type of token and the encryption algorithm
+
 PAYLOAD: Has the data that identifies the user: it can be its ID, user name, etc.
+
 SIGNATURE: Digital signature, which is generated with the previous two sections, and it allows you to verify if the content has been modified.
 
 Password encryption ensures that a user's password is hidden from view, even to the creators or the application, enhancing the level of security and protection from people wanting to acquire people's passwords for malicious reasons. For this project we used the Flask extension [Bcrypt](https://flask-bcrypt.readthedocs.io/en/latest/) which provides bcrypt hashing utilities for an application.
