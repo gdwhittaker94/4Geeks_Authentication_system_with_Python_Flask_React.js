@@ -7,7 +7,7 @@ This project taught us about how to increase the security of our applications th
 <img src="https://github.com/breatheco-de/content/blob/master/src/assets/images/authentication-diagram.png?raw=true" alt="Autentication workflow" height="300px" width="500px"/>
 
 ### Security Tokens
-Security tokens allow us to identify who wants access to our website or webpage and decide whether that user should be allowed access or not, or what kind of access they should be allowed to have within our app. For this project we used JWT (JSON WEB TOKEN), a popular standard for security tokens which do not get saved onto a database and contain all the necessary information needed for authentication within the token. You can learn more about them [here](https://jwt.io/introduction), and we used Python and the Flask library to do integrate this functionality into our app.
+Security tokens allow us to identify who is trying to access our app, permit or deny that person access to our app and, if permitted, can control what the person is or isn't allowed to do once in our app. For this project we used JWT (JSON WEB TOKEN), a popular standard for security tokens as they do not get saved onto a database and contain all the necessary information needed for authentication within the token. You can learn more about them [here](https://jwt.io/introduction), and we used Python and the Flask library to integrate this functionality into our app.
 
 ### JWT Structure
 <img src="https://github.com/breatheco-de/content/blob/master/src/assets/images/jwt-token-structure.png?raw=true" alt="Autentication workflow" height="150px" width="550px"/>
@@ -19,7 +19,7 @@ PAYLOAD: Has the data that identifies the user: it can be its ID, user name, etc
 SIGNATURE: Digital signature, which is generated with the previous two sections, and it allows you to verify if the content has been modified.
 
 ### Password Encryption 
-Password encryption ensures that a user's password is hidden from view, even to the creators or the application, enhancing the level of security and protection from people wanting to acquire people's passwords for malicious reasons. For this project we used the Flask extension [Bcrypt](https://flask-bcrypt.readthedocs.io/en/latest/) which provides bcrypt hashing utilities for an application.
+Password encryption ensures that a user's password is hidden from view, even to the creators of the application, enhancing the level of security and protection from those wanting to acquire people's passwords for malicious reasons. For this project we used the Flask extension [Bcrypt](https://flask-bcrypt.readthedocs.io/en/latest/) which provides bcrypt hashing utilities for an application.
 
 The frontend of this app was built with Reactjs. 
 
