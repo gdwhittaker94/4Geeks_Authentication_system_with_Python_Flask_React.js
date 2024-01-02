@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
+import token from "../../img/token.png"
 
 export const Signup = () => {
 	const { store, actions } = useContext(Context);
@@ -69,7 +70,16 @@ export const Signup = () => {
 					Back to Login
 				</p>
 			</Link>
-
+			<div className="d-flex flex-column token-cntr">
+				<p className="token-text">Token Status</p>
+				{store.token === "" ?
+					<span className="no-token">[Empty]</span>
+					:
+					<div className="token-img">
+						<img src={token} alt="Gold Token Coin" className="img-fluid"></img>
+					</div>
+				}
+			</div>
 		</div>
 	);
 };
